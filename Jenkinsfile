@@ -46,7 +46,7 @@ pipeline {
             steps {
                 script {
                     withCredentials([string(credentialsId: 'GITHUB_PAT', variable: 'GITHUB_PAT')]) {
-                    withCredentials([string(credentialsId: 'github_credentials', url: 'https://github.com/GitPracticeRepositorys/gitops-demo-deployment.git')]) {
+                    withCredentials([string(git credentialsId: 'github_credentials', url: 'https://github.com/GitPracticeRepositorys/gitops-demo-deployment.git')]) {
                             sh "rm -rf gitops-demo-deployment"
                             sh "git clone ${githubRepoURL}"
                             dir('gitops-demo-deployment') {
