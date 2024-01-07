@@ -44,8 +44,7 @@ pipeline {
         stage('Update Manifest') {
             steps {
                 script {
-                    // Assuming 'github_pat' is the Jenkins credentials ID for the PAT
-                    withCredentials([string(credentialsId: 'GITHUB_PAT', variable: 'GITHUB_PAT')]) {
+                    withCredentials([string(credentialsId: 'github_pat', variable: 'GITHUB_PAT')]) {
                         withCredentials([usernamePassword(credentialsId: 'github_credentials', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
                             sh "rm -rf gitops-demo-deployment"
                             sh "git clone ${githubRepoURL}"
@@ -57,7 +56,7 @@ pipeline {
                                 sh "git commit -m 'Update image version to: ${BUILD_NUMBER}'"
                                 sh "git config --global credential.helper store"
                                 sh "git remote set-url origin ${githubRepoURL}"
-                                sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@GitPracticeRepositorys/gitops-demo-deployment.git HEAD:master -f"
+                                sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/GitPracticeRepositorys/gitops-demo-deployment.git HEAD:master -f"
                             }
                         }
                     }
