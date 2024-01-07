@@ -45,7 +45,7 @@ pipeline {
             agent { label 'docker-node' }
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: githubCredentials, passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+                    withCredentials([usernamePassword(credentialsId: github_Credentials, passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
                         sh "rm -rf gitops-demo-deployment"
                         sh "git clone https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/GitPracticeRepositorys/gitops-demo-deployment.git"
                         dir('gitops-demo-deployment') {
