@@ -56,6 +56,7 @@ pipeline {
                                 sh "git commit -m 'Update image version to: ${BUILD_NUMBER}'"
                                 sh "git config --global credential.helper store"
                                 sh "git remote set-url origin https://${GITHUB_PAT}@github.com/GitPracticeRepositorys/gitops-demo-deployment.git"
+                    withCredentials([usernamePassword(credentialsId: 'github_credentials', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
                                 sh "git push origin HEAD:master -f"
                             }
                         }
