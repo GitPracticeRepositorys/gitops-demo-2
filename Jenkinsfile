@@ -51,9 +51,9 @@ pipeline {
                             sh "git clone ${githubRepoURL}"
                             dir('gitops-demo-deployment') {
                                 sh "sed -i 's/newTag.*/newTag: v${BUILD_NUMBER}/g' kustomize/overlays/*/*kustomization.yaml"
+                                sh "git add kustomize/overlays/*/*kustomization.yaml"
                                 sh "git config user.email knowledgesk9999@gmail.com"
                                 sh "git config user.name GitPracticeRepositorys"
-                                sh "git add kustomize/overlays/*/*kustomization.yaml"
                                 sh "git commit -m 'Update image version to: ${BUILD_NUMBER}'"
                                 sh "git config --global credential.helper store"
                                 sh "git remote set-url origin https://GitPracticeRepositorys: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@github.com/GitPracticeRepositorys/gitops-demo-deployment.git"
