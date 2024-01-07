@@ -47,7 +47,7 @@ pipeline {
                     withCredentials([string(credentialsId: 'GITHUB_PAT', variable: 'GITHUB_PAT')]) {
                         withCredentials([usernamePassword(credentialsId: 'github_credentials', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
                             sh "rm -rf gitops-demo-deployment"
-                            sh "git clone ${githubRepoURL}"
+                            sh "git clone https://${GITHUB_PAT}@github.com/GitPracticeRepositorys/gitops-demo-deployment.git"
                             dir('gitops-demo-deployment') {
                                 sh "sed -i 's/newTag.*/newTag: v${BUILD_NUMBER}/g' kustomize/overlays/*/*kustomization.yaml"
                                 sh "git config user.email knowledgesk9999@gmail.com"
@@ -55,8 +55,8 @@ pipeline {
                                 sh "git add kustomize/overlays/*/*kustomization.yaml"
                                 sh "git commit -m 'Update image version to: ${BUILD_NUMBER}'"
                                 sh "git config --global credential.helper store"
-                                sh "git remote set-url origin https://GitPracticeRepositorys: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@github.com/GitPracticeRepositorys/gitops-demo-deployment.git"
-                                sh "git push origin master"
+                                sh "git remote set-url origin https://${GITHUB_PAT}@github.com/GitPracticeRepositorys/gitops-demo-deployment.git"
+                                sh "git push origin master -f"
                             }
                         }
                     }
