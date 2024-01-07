@@ -46,7 +46,7 @@ pipeline {
             steps {
                 script {
                     withCredentials([string(credentialsId: 'GITHUB_PAT', variable: 'GITHUB_PAT')]) {
-                    withCredentials([gitUsernamePassword(credentialsId: 'github_credentials', gitToolName: 'Git 2.34.1')]) {
+                    withCredentials([gitUsernamePassword(credentialsId: 'github_credentials')]) {
                             sh "rm -rf gitops-demo-deployment"
                             sh "git clone ${githubRepoURL}"
                             dir('gitops-demo-deployment') {
@@ -57,7 +57,6 @@ pipeline {
                                 sh "git commit -m 'Update image version to: ${BUILD_NUMBER}'"
                                 sh "git config --global credential.helper store"
                                 sh "git remote set-url origin https://GitPracticeRepositorys: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@github.com/GitPracticeRepositorys/gitops-demo-deployment.git"
-                                sh "git diff --quiet || git commit -m 'Added new change"
                                 sh 'git push origin master'
                             }
                         }
