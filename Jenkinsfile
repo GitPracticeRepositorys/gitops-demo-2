@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent { label 'docker-node-1' }
 
     environment {
         imagerepo = 'shivakrishna99'
@@ -44,6 +44,7 @@ pipeline {
         }
 
         stage('Update Manifest') {
+            agent { label 'docker-node' }
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: githubCredentials, passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
