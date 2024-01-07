@@ -41,12 +41,14 @@ pipeline {
           sh "git clone https://github.com/GitPracticeRepositorys/gitops-demo-deployment.git"
           sh "cd gitops-demo-deployment"
           dir('gitops-demo-deployment') {
-            sh "sed -i 's/newTag.*/newTag: v${BUILD_NUMBER}/g' kustomize/overlays/*/*kustomization.yaml"
+            sh "sed -i 's/newTag.*/newTag: v${BUILD_NUMBER}/g' kustomize/overlays/*/*kustomization.yaml" 
             sh "git config user.email knowledgesk9999@gmail.com"
             sh "git config user.name GitPracticeRepositorys"
             sh "git add ${WORKSPACE}/gitops-demo-deployment/kustomize/overlays/*/*kustomization.yaml"
             sh "git commit -m 'Update image version to: ${BUILD_NUMBER}'"
-            sh "git push git${GIT_USERNAME}:${GIT_PASSWORD}@github.com:GitPracticeRepositorys/gitops-demo-deployment.git HEAD:master -f"
+            sh "git config --global credential.helper store"
+            sh "git remote set-url origin https://GitPracticeRepositorys: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@github.com/GitPracticeRepositorys/gitops-demo-deployment.git"
+	    sh "git push origin master"
 
           }
         }
