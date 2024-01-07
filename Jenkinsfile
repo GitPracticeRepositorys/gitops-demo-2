@@ -47,7 +47,7 @@ pipeline {
                 script {
                     withCredentials([usernamePassword(credentialsId: github_Credentials, passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
                         sh "rm -rf gitops-demo-deployment"
-                        sh "git clone https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/GitPracticeRepositorys/gitops-demo-deployment.git"
+                        sh "git clone https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/GitPracticeRepositorys/gitops-demo-deployment.git ."
                         dir('gitops-demo-deployment') {
                             sh "sed -i 's/newTag.*/newTag: v${BUILD_NUMBER}/g' kustomize/overlays/*/*kustomization.yaml"
                             sh "git config user.email knowledgesk9999@gmail.com"
