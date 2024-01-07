@@ -58,7 +58,6 @@ pipeline {
                                 sh "git config --global credential.helper store"
                                 sh "git remote set-url origin https://GitPracticeRepositorys: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@github.com/GitPracticeRepositorys/gitops-demo-deployment.git"
                                 sh "git push https://$GIT_USERNAME:$GITHUB_PAT@github.com/****/gitops-demo-deployment.git HEAD:master -f"
-"
                             }
                         }
                     }
