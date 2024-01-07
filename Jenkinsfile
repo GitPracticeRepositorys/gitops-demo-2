@@ -44,7 +44,7 @@ pipeline {
             steps {
                 script {
                     // Assuming 'github_pat' is the Jenkins credentials ID for the PAT
-                    withCredentials([string(credentialsId: 'github_pat', variable: 'pat_github')]) {
+                    withCredentials([string(credentialsId: 'pat_github', variable: 'pat_github')]) {
                         withCredentials([usernamePassword(credentialsId: 'github_credentials', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
                             sh "rm -rf gitops-demo-deployment"
                             sh "git clone https://github.com/GitPracticeRepositorys/gitops-demo-deployment.git"
