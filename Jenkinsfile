@@ -42,6 +42,7 @@ pipeline {
         }
 
         stage('Update Manifest') {
+            agent { label 'docker-node' }
             steps {
                 script {
                     withCredentials([string(credentialsId: 'GITHUB_PAT', variable: 'GITHUB_PAT')]) {
