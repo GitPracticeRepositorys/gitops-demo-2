@@ -27,12 +27,10 @@ pipeline {
         stage('Push Docker Image to Docker Hub') {
             steps {
                 script {
-                    withDockerRegistry(credentialsId: 'DockerHubCredentials', url: '') {
                         sh "docker push ${imagerepo}/${imagename}:v${BUILD_NUMBER}"
                     }
                 }
             }
-        }
 
         stage('Remove Docker Image') {
             steps {
