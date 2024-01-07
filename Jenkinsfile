@@ -50,8 +50,8 @@ pipeline {
                         sh "git clone https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/GitPracticeRepositorys/gitops-demo-deployment.git"
                         dir('gitops-demo-deployment') {
                             sh "sed -i 's/newTag.*/newTag: v${BUILD_NUMBER}/g' kustomize/overlays/*/*kustomization.yaml"
-                            sh "git config user.email "knowledgesk9999@gmail.com""
-                            sh "git config user.name "GitPracticeRepositorys""
+                            sh "git config user.email "knowledgesk9999@gmail.com" "
+                            sh "git config user.name "GitPracticeRepositorys" "
                             sh "git add kustomize/overlays/*/*kustomization.yaml"
                             sh "git commit -m 'Update image version to: ${BUILD_NUMBER}'"
                             sh "git push origin HEAD:master -f"
