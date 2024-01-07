@@ -46,7 +46,8 @@ pipeline {
             sh "git config user.name GitPracticeRepositorys"
             sh "git add ${WORKSPACE}/gitops-demo-deployment/kustomize/overlays/*/*kustomization.yaml"
             sh "git commit -m 'Update image version to: ${BUILD_NUMBER}'"
-            sh"git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/GitPracticeRepositorys/gitops-demo-deployment.git HEAD:master -f"
+            sh "git push git@github.com:GitPracticeRepositorys/gitops-demo-deployment.git HEAD:master -f"
+
           }
         }
       }
