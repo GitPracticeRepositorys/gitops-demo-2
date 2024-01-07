@@ -47,7 +47,7 @@ pipeline {
                 script {
                     withCredentials([usernamePassword(credentialsId: githubCredentials, passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
                         sh "rm -rf gitops-demo-deployment"
-                        sh "git clone https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/GitPracticeRepositorys/gitops-demo-deployment.git ."
+                        sh "git pull https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/GitPracticeRepositorys/gitops-demo-deployment.git ."
 
                         dir('gitops-demo-deployment') {
                             sh "sed -i 's/newTag.*/newTag: v${BUILD_NUMBER}/g' kustomize/overlays/*/*kustomization.yaml"
