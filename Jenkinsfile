@@ -1,11 +1,11 @@
 pipeline {
+    agent any
+
     environment {
         imagerepo = 'shivakrishna99'
         imagename = 'nodejs-docker'
-        githubRepoURL = 'https://github.com/GitPracticeRepositorys/gitops-demo-deployment.git'
+        githubCredentials = 'github_credentials'
     }
-
-    agent { label 'docker-node-1' }
 
     stages {
         stage('Build Docker Image') {
@@ -27,7 +27,9 @@ pipeline {
         stage('Push Docker Image to Docker Hub') {
             steps {
                 script {
-                    sh "docker push ${imagerepo}/${imagename}:v${BUILD_NUMBER}"
+                    withDockerRegistry(credentialsId: 'DockerHubCredentials', url: '') {
+                        sh "docker push ${imagerepo}/${imagename}:v${BUILD_NUMBER}"
+                    }
                 }
             }
         }
@@ -42,23 +44,18 @@ pipeline {
         }
 
         stage('Update Manifest') {
-            agent { label 'docker-node' }
             steps {
                 script {
-                    withCredentials([string(credentialsId: 'GITHUB_PAT', variable: 'GITHUB_PAT')]) {
-                    withCredentials([gitUsernamePassword(credentialsId: 'github_credentials')]) {
-                            sh "rm -rf gitops-demo-deployment"
-                            sh "git clone ${githubRepoURL}"
-                            dir('gitops-demo-deployment') {
-                                sh "sed -i 's/newTag.*/newTag: v${BUILD_NUMBER}/g' kustomize/overlays/*/*kustomization.yaml"
-                                sh "git add kustomize/overlays/*/*kustomization.yaml"
-                                sh "git config user.email knowledgesk9999@gmail.com"
-                                sh "git config user.name GitPracticeRepositorys"
-                                sh "git commit -m 'Update image version to: ${BUILD_NUMBER}'"
-                                sh "git config --global credential.helper store"
-                                sh "git remote set-url origin https://GitPracticeRepositorys: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@github.com/GitPracticeRepositorys/gitops-demo-deployment.git"
-                                sh 'git push origin master'
-                            }
+                    withCredentials([usernamePassword(credentialsId: githubCredentials, passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+                        sh "rm -rf gitops-demo-deployment"
+                        sh "git clone https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/GitPracticeRepositorys/gitops-demo-deployment.git"
+                        dir('gitops-demo-deployment') {
+                            sh "sed -i 's/newTag.*/newTag: v${BUILD_NUMBER}/g' kustomize/overlays/*/*kustomization.yaml"
+                            sh "git config user.email knowledgesk9999@gmail.com"
+                            sh "git config user.name GitPracticeRepositorys"
+                            sh "git add kustomize/overlays/*/*kustomization.yaml"
+                            sh "git commit -m 'Update image version to: ${BUILD_NUMBER}'"
+                            sh "git push origin HEAD:master -f"
                         }
                     }
                 }
