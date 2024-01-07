@@ -44,7 +44,7 @@ pipeline {
         stage('Update Manifest') {
             steps {
                 script {
-                    withCredentials([string(credentialsId: 'github_pat', variable: 'GITHUB_PAT')]) {
+                    withCredentials([string(credentialsId: 'GITHUB_PAT', variable: 'GITHUB_PAT')]) {
                         withCredentials([usernamePassword(credentialsId: 'github_credentials', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
                             sh "rm -rf gitops-demo-deployment"
                             sh "git clone ${githubRepoURL}"
