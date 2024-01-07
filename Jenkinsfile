@@ -1,11 +1,11 @@
 pipeline {
 	
 	environment {
-    imagerepo = 'limarktest'
+    imagerepo = 'shivakrishna99'
     imagename = 'nodejs-docker'
 	}
 
-	agent any
+	agent { label 'docker-node-1' }
 	
 	stages {
 	
@@ -23,7 +23,7 @@ pipeline {
     
     stage('Push Docker Image to Docker Hub') {
       steps {
-        withDockerRegistry([ credentialsId: 'DockerHubCredentials', url: '' ]) {
+        withDockerRegistry([ credentialsId: 'dockerhub_credentials', url: '' ]) {
           sh "docker push ${imagerepo}/${imagename}:v${BUILD_NUMBER}"
         }
       }
@@ -38,17 +38,17 @@ pipeline {
     
     stage('Update Manifest') {
       steps {
-        withCredentials([usernamePassword(credentialsId: 'GitHubCredentials', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+        withCredentials([usernamePassword(credentialsId: 'github_credentials', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
           sh "rm -rf gitops-demo-deployment"
-          sh "git clone https://github.com/dinushchathurya/gitops-demo-deployment.git"
+          sh "git clone https://github.com/GitPracticeRepositorys/gitops-demo-deployment.git"
           sh "cd gitops-demo-deployment"
           dir('gitops-demo-deployment') {
             sh "sed -i 's/newTag.*/newTag: v${BUILD_NUMBER}/g' kustomize/overlays/*/*kustomization.yaml"
-            sh "git config user.email ci@dinush.com"
-            sh "git config user.name devops-bot"
+            sh "git config user.email knowledgesk9999@gmail.com"
+            sh "git config user.name GitPracticeRepositorys"
             sh "git add ${WORKSPACE}/gitops-demo-deployment/kustomize/overlays/*/*kustomization.yaml"
             sh "git commit -m 'Update image version to: ${BUILD_NUMBER}'"
-            sh"git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/dinushchathurya/gitops-demo-deployment.git HEAD:master -f"
+            sh"git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/GitPracticeRepositorys/gitops-demo-deployment.git HEAD:master -f"
           }
         }
       }
