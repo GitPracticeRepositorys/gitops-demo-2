@@ -2,7 +2,7 @@ pipeline {
     environment {
         imagerepo = 'shivakrishna99'
         imagename = 'nodejs-docker'
-        githubRepoURL = 'https://github.com/****/gitops-demo-deployment.git'
+        githubRepoURL = 'https://github.com/GitPracticeRepositorys/gitops-demo-deployment.git'
     }
 
     agent { label 'docker-node-1' }
