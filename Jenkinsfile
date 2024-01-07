@@ -56,7 +56,7 @@ pipeline {
                                 sh "git config user.name GitPracticeRepositorys"
                                 sh "git commit -m 'Update image version to: ${BUILD_NUMBER}'"
                                 sh "git config --global credential.helper store"
-                                sh "git remote set-url origin https://GitPracticeRepositorys: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@github.com/GitPracticeRepositorys/gitops-demo-deployment.git"
+                                sh "git remote set-url origin https://GitPracticeRepositorys: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@github.com/GitPracticeRepositorys/gitops-demo-deployment.git"
                                 sh "git push https://GIT_USERNAME:GITHUB_PAT@github.com/GitPracticeRepositorys/gitops-demo-deployment.git HEAD:master -f"
                             }
                         }
