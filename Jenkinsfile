@@ -43,7 +43,7 @@ pipeline {
         stage('Update Manifest') {
             steps {
                 script {
-                    withCredentials([gitUsernamePassword(credentialsId: 'Github_Credentials', gitToolName: 'Default')]) {
+                    withCredentials([gitUsernamePassword(credentialsId: 'GitHub_Credentials', gitToolName: 'Default')]) {
                         sh "rm -rf gitops-demo-deployment"
                         sh "git clone https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/GitPracticeRepositorys/gitops-demo-deployment.git"
                         dir('gitops-demo-deployment') {
